@@ -11,6 +11,7 @@ export const C = {
   pad: '#2f3244', // upholstered seat/back pad
   padLight: '#484d67',
   accent: '#5b4bc7', // brand accent — moving parts, handles, highlights
+  accentLight: '#9384e3',
   accentDeep: '#453797',
   cable: '#9aa0b5', // steel cable
   cableLight: '#d3d6e3',

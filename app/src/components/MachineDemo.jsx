@@ -15,9 +15,16 @@ export default function MachineDemo({ kind, dur }) {
   const gPlate = `url(#${uid}-plate)`;
   const gPad = `url(#${uid}-pad)`;
   const gHousing = `url(#${uid}-housing)`;
+  const gHead = `url(#${uid}-head)`;
 
+  // Every moving part gets the same soft lift so motion reads clearly at a
+  // glance, plus a hold at peak contraction (see the ip-* keyframes) so the
+  // rep tempo — quick lift, brief squeeze, controlled lower — looks real.
   const anim = (name, extra) =>
-    Object.assign({ animation: `${name} ${dur}s ease-in-out infinite`, transformBox: 'view-box' }, extra || {});
+    Object.assign(
+      { animation: `${name} ${dur}s ease-in-out infinite`, transformBox: 'view-box', filter: `drop-shadow(0 2px 3px ${C.shadow})` },
+      extra || {}
+    );
   const L = (x1, y1, x2, y2, sw, col) =>
     h('line', { x1, y1, x2, y2, stroke: col || C.accent, strokeWidth: sw || 6, strokeLinecap: 'round' });
 
@@ -49,6 +56,13 @@ export default function MachineDemo({ kind, dur }) {
       h('stop', { offset: '0%', stopColor: C.housingLight }),
       h('stop', { offset: '30%', stopColor: C.housing }),
       h('stop', { offset: '100%', stopColor: C.housing })
+    ),
+    h(
+      'radialGradient',
+      { id: `${uid}-head`, cx: '35%', cy: '32%', r: '75%' },
+      h('stop', { offset: '0%', stopColor: C.accentLight }),
+      h('stop', { offset: '55%', stopColor: C.accent }),
+      h('stop', { offset: '100%', stopColor: C.accentDeep })
     )
   );
 
@@ -113,7 +127,7 @@ export default function MachineDemo({ kind, dur }) {
         ...cable('M57 74 L57 34 Q60 26 66 30 L136 56'),
         h('rect', { x: 174, y: 48, width: 9, height: 42, rx: 4, fill: gFrame }),
         ...seat(158, 88, 36),
-        h('circle', { cx: 164, cy: 44, r: 8, fill: C.accent }),
+        h('circle', { cx: 164, cy: 44, r: 8, fill: gHead }),
         L(170, 88, 166, 52, 8),
         L(170, 88, 146, 92, 7),
         L(146, 92, 143, 118, 6),
@@ -128,7 +142,7 @@ export default function MachineDemo({ kind, dur }) {
         ...cable('M57 74 L57 70 Q60 62 66 66 L128 78'),
         ...seat(154, 92, 40),
         h('rect', { x: 132, y: 70, width: 30, height: 8, rx: 3, fill: gFrame }),
-        h('circle', { cx: 168, cy: 46, r: 8, fill: C.accent }),
+        h('circle', { cx: 168, cy: 46, r: 8, fill: gHead }),
         L(172, 92, 168, 54, 8),
         L(172, 92, 148, 96, 7),
         L(148, 96, 146, 118, 6),
@@ -147,7 +161,7 @@ export default function MachineDemo({ kind, dur }) {
         ...pulley(60, 40),
         ...cable('M57 74 L57 44 Q60 36 66 40 L134 62'),
         ...seat(156, 88, 40),
-        h('circle', { cx: 166, cy: 44, r: 8, fill: C.accent }),
+        h('circle', { cx: 166, cy: 44, r: 8, fill: gHead }),
         L(170, 88, 167, 52, 8),
         L(170, 88, 144, 92, 7),
         L(144, 92, 141, 118, 6),
@@ -177,7 +191,7 @@ export default function MachineDemo({ kind, dur }) {
           ? h(
               'g',
               null,
-              h('circle', { cx: 158, cy: 36, r: 8, fill: C.accent }),
+              h('circle', { cx: 158, cy: 36, r: 8, fill: gHead }),
               L(158, 45, 158, 84, 8),
               L(156, 45, 156, 62, 5.5),
               L(158, 84, 152, 118, 7)
@@ -186,7 +200,7 @@ export default function MachineDemo({ kind, dur }) {
               'g',
               null,
               ...seat(146, 92, 40),
-              h('circle', { cx: 158, cy: 52, r: 8, fill: C.accent }),
+              h('circle', { cx: 158, cy: 52, r: 8, fill: gHead }),
               L(158, 92, 158, 60, 8),
               L(158, 92, 186, 96, 7),
               L(186, 96, 188, 118, 6),
@@ -209,7 +223,7 @@ export default function MachineDemo({ kind, dur }) {
         ...cable('M57 74 L57 30 Q60 22 66 26 L138 40'),
         ...seat(152, 92, 40),
         h('rect', { x: 176, y: 48, width: 9, height: 46, rx: 4, fill: gFrame }),
-        h('circle', { cx: 166, cy: 44, r: 8, fill: C.accent }),
+        h('circle', { cx: 166, cy: 44, r: 8, fill: gHead }),
         L(170, 92, 168, 52, 8),
         L(170, 92, 146, 96, 7),
         L(146, 96, 144, 118, 6),
@@ -226,7 +240,7 @@ export default function MachineDemo({ kind, dur }) {
         ),
         h('rect', { x: 96, y: 88, width: 96, height: 8, rx: 3, fill: gFrame }),
         h('rect', { x: 180, y: 62, width: 10, height: 30, rx: 4, fill: gFrame }),
-        h('circle', { cx: 182, cy: 54, r: 8, fill: C.accent }),
+        h('circle', { cx: 182, cy: 54, r: 8, fill: gHead }),
         L(176, 84, 130, 80, 8),
         h('g', { style: anim('ip-tx-neg') }, L(130, 80, 100, 64, 7), L(100, 64, 62, 62, 6))
       );
@@ -240,7 +254,7 @@ export default function MachineDemo({ kind, dur }) {
         ...cable('M57 74 L57 50 Q60 42 66 46 L120 78'),
         h('rect', { x: 104, y: prone ? 74 : 84, width: 92, height: 8, rx: 3, fill: gFrame }),
         h('rect', { x: 142, y: prone ? 82 : 92, width: 8, height: 42, fill: gHousing }),
-        h('circle', { cx: prone ? 190 : 186, cy: prone ? 66 : 56, r: 8, fill: C.accent }),
+        h('circle', { cx: prone ? 190 : 186, cy: prone ? 66 : 56, r: 8, fill: gHead }),
         prone ? L(184, 70, 138, 72, 8) : h('g', null, L(186, 66, 184, 82, 8), L(184, 82, 150, 84, 7)),
         h(
           'g',
@@ -258,7 +272,7 @@ export default function MachineDemo({ kind, dur }) {
         ...cable('M57 74 L57 64 Q60 56 66 60 L118 74'),
         h('rect', { x: 100, y: 96, width: 100, height: 8, rx: 3, fill: gFrame }),
         h('rect', { x: 176, y: 52, width: 10, height: 44, rx: 4, fill: gFrame }),
-        h('circle', { cx: 180, cy: 46, r: 8, fill: C.accent }),
+        h('circle', { cx: 180, cy: 46, r: 8, fill: gHead }),
         h(
           'g',
           { style: anim('ip-ty-neg') },
@@ -278,7 +292,7 @@ export default function MachineDemo({ kind, dur }) {
           'g',
           { style: anim('ip-ty-neg') },
           h('rect', { x: 138, y: 30, width: 40, height: 9, rx: 4, fill: C.accent }),
-          h('circle', { cx: 158, cy: 52, r: 8, fill: C.accent }),
+          h('circle', { cx: 158, cy: 52, r: 8, fill: gHead }),
           L(158, 60, 158, 88, 8),
           L(152, 44, 152, 60, 5),
           L(164, 44, 164, 60, 5),
@@ -301,7 +315,7 @@ export default function MachineDemo({ kind, dur }) {
           'g',
           { style: anim(rot ? 'ip-rot-neg' : 'ip-rot-pos', { transformOrigin: '172px 92px' }) },
           L(172, 92, 168, 54, 8),
-          h('circle', { cx: 167, cy: 46, r: 8, fill: C.accent }),
+          h('circle', { cx: 167, cy: 46, r: 8, fill: gHead }),
           L(168, 60, 146, 66, 5.5)
         )
       );
