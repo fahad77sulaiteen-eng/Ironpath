@@ -82,7 +82,7 @@ export default function WorkoutSection({ day, selectDay, cw }) {
               >
                 {img ? (
                   <img
-                    src={`img/${img}`}
+                    src={img}
                     alt={`${name} — ${e.muscle} highlighted`}
                     loading="lazy"
                     style={{ display: 'block', width: '100%', aspectRatio: '1 / 1', objectFit: 'cover', mixBlendMode: 'lighten' }}
