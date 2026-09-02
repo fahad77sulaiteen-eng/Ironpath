@@ -41,6 +41,7 @@ export default function WorkoutSection({ day, selectDay, cw }) {
         {exercises.map((e, i) => {
           const name = setKey === 'a' ? e.a : e.b;
           const machine = setKey === 'a' ? e.am : e.bm;
+          const img = setKey === 'a' ? e.aImg : e.bImg;
           const search = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(`${name} gym machine`)}`;
           return (
             <article key={i} style={{ borderTop: '1px solid var(--color-divider)', paddingTop: 14 }}>
@@ -66,13 +67,29 @@ export default function WorkoutSection({ day, selectDay, cw }) {
               <div
                 style={{
                   margin: '12px 0 0',
-                  padding: '6px 8px 2px',
+                  padding: img ? 0 : '6px 8px 2px',
+                  overflow: 'hidden',
                   borderRadius: 'var(--radius-md)',
-                  background: 'linear-gradient(180deg, color-mix(in srgb,var(--color-bg) 70%,#000) 0%, var(--color-neutral-900) 100%)',
+                  // Photos carry their own near-black background and rely on
+                  // mix-blend-mode:lighten to disappear into this panel, so
+                  // this well stays a fixed dark tone regardless of page
+                  // theme — a pale panel would wash the blend out to white.
+                  background: img
+                    ? 'linear-gradient(180deg, #1b1d29 0%, #101119 100%)'
+                    : 'linear-gradient(180deg, color-mix(in srgb,var(--color-bg) 70%,#000) 0%, var(--color-neutral-900) 100%)',
                   boxShadow: 'inset 0 1px 0 color-mix(in srgb,var(--color-text) 8%,transparent), var(--shadow-sm)',
                 }}
               >
-                <MachineDemo kind={e.kind} dur={DUR} />
+                {img ? (
+                  <img
+                    src={`img/${img}`}
+                    alt={`${name} — ${e.muscle} highlighted`}
+                    loading="lazy"
+                    style={{ display: 'block', width: '100%', aspectRatio: '1 / 1', objectFit: 'cover', mixBlendMode: 'lighten' }}
+                  />
+                ) : (
+                  <MachineDemo kind={e.kind} dur={DUR} />
+                )}
               </div>
               <div style={{ display: 'flex', gap: 12, alignItems: 'center', marginTop: 12 }}>
                 <div style={{ flex: 'none', width: 38 }}>
