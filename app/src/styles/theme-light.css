@@ -1,0 +1,48 @@
+/*
+ * Light, high-contrast IronPath theme — overrides the Nocturne dark tokens.
+ * Loaded after nocturne.css so these :root values win the cascade.
+ * Shadows switch to the "soft ink-tinted" light-theme variant the Nocturne
+ * readme itself describes (dark theme uses a hairline edge + ambient dark).
+ */
+:root {
+  --color-bg: #f6f6fb;
+  --color-surface: #ffffff;
+  --color-text: #1a1c27;
+  --color-accent: #5b4bc7;
+  --color-accent-2: #6a5aa9;
+  --color-divider: color-mix(in srgb, #1a1c27 12%, transparent);
+
+  --color-neutral-100: #23252f;
+  --color-neutral-200: #383b47;
+  --color-neutral-300: #565a68;
+  --color-neutral-400: #767a8c;
+  --color-neutral-500: #9397ab;
+  --color-neutral-600: #b7bbcd;
+  --color-neutral-700: #d3d6e3;
+  --color-neutral-800: #e3e5ef;
+  --color-neutral-900: #eef0f6;
+
+  --color-accent-100: #453797;
+  --color-accent-200: #4f41ab;
+  --color-accent-300: #5b4bc7;
+  --color-accent-400: #7e70dd;
+  --color-accent-500: #9184d9;
+  --color-accent-600: #a89bec;
+  --color-accent-700: #cfc7f3;
+  --color-accent-800: #e9e5fb;
+  --color-accent-900: #f4f1fd;
+
+  --color-accent-2-100: #453797;
+  --color-accent-2-200: #4f41ab;
+  --color-accent-2-300: #5b4bc7;
+  --color-accent-2-400: #7e70dd;
+  --color-accent-2-500: #9184d9;
+  --color-accent-2-600: #a89bec;
+  --color-accent-2-700: #cfc7f3;
+  --color-accent-2-800: #e9e5fb;
+  --color-accent-2-900: #f4f1fd;
+
+  --shadow-sm: 0 1px 2px rgba(26, 28, 39, 0.06), 0 0 0 1px rgba(26, 28, 39, 0.06);
+  --shadow-md: 0 6px 16px rgba(26, 28, 39, 0.1), 0 0 0 1px rgba(26, 28, 39, 0.06);
+  --shadow-lg: 0 16px 36px rgba(26, 28, 39, 0.16), 0 0 0 1px rgba(26, 28, 39, 0.07);
+}

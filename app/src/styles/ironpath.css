@@ -1,0 +1,29 @@
+/* Global reset + animation keyframes ported from IronPath.dc.html's <style> block. */
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+*, *::before, *::after { box-sizing: border-box; }
+a { color: var(--color-accent); text-decoration: none; }
+a:hover { color: var(--color-accent-400); }
+button { font-family: inherit; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+@keyframes ip-stack { 0%, 100% { transform: translateY(0); } 45% { transform: translateY(-18px); } }
+@keyframes ip-tx-neg { 0%, 100% { transform: translateX(0); } 45% { transform: translateX(-17px); } }
+@keyframes ip-tx-pos { 0%, 100% { transform: translateX(0); } 45% { transform: translateX(15px); } }
+@keyframes ip-ty-neg { 0%, 100% { transform: translateY(0); } 45% { transform: translateY(-19px); } }
+@keyframes ip-ty-pos { 0%, 100% { transform: translateY(0); } 45% { transform: translateY(19px); } }
+@keyframes ip-rot-neg { 0%, 100% { transform: rotate(0deg); } 45% { transform: rotate(-48deg); } }
+@keyframes ip-rot-pos { 0%, 100% { transform: rotate(0deg); } 45% { transform: rotate(44deg); } }
+@keyframes ip-pop { 0% { transform: scale(.3); opacity: 0; } 60% { transform: scale(1.18); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+@keyframes ip-halo { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--color-accent) 55%, transparent); } 100% { box-shadow: 0 0 0 14px transparent; } }
+@keyframes ip-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
