@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { HERO_SCENE } from '../data/exercises';
 import { C } from '../data/colors';
+import { useI18n } from '../i18n/I18nContext';
 
 // Builds the rotating 3D gym-machine hero. Falls back to (and keeps
 // showing) the static SVG rig if WebGL isn't available.
@@ -122,6 +123,7 @@ function useHeroScene(canvasRef, fallbackRef) {
 }
 
 export default function HeroSection() {
+  const { t } = useI18n();
   const canvasRef = useRef(null);
   const fallbackRef = useRef(null);
   useHeroScene(canvasRef, fallbackRef);
@@ -177,7 +179,7 @@ export default function HeroSection() {
           boxShadow: '0 -8px 24px color-mix(in srgb, var(--color-bg) 60%, transparent)',
         }}
       >
-        <span className="tag tag-outline" style={{ marginBottom: 16 }}>Beginner · Month 1</span>
+        <span className="tag tag-outline" style={{ marginBottom: 16 }}>{t('heroTag')}</span>
         <h1
           style={{
             fontFamily: 'var(--font-heading)',
@@ -189,9 +191,9 @@ export default function HeroSection() {
             textWrap: 'pretty',
           }}
         >
-          Train smarter.
+          {t('heroTitle1')}
           <br />
-          No trainer needed.
+          {t('heroTitle2')}
         </h1>
         <p
           style={{
@@ -202,11 +204,11 @@ export default function HeroSection() {
             color: 'color-mix(in srgb,var(--color-text) 68%,transparent)',
           }}
         >
-          Sixteen guided sessions on gym machines — every rep shown, every cue written down.
+          {t('heroBody')}
         </p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
-          <a className="btn btn-primary" href="#tracker">Start my program</a>
-          <a className="btn btn-secondary" href="#split">See the 4-day split</a>
+          <a className="btn btn-primary" href="#tracker">{t('startProgram')}</a>
+          <a className="btn btn-secondary" href="#split">{t('seeSplit')}</a>
         </div>
       </div>
     </section>

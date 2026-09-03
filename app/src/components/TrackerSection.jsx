@@ -1,4 +1,5 @@
 import { DAYS } from '../data/exercises';
+import { useI18n } from '../i18n/I18nContext';
 
 function weekCardStyle(active, locked) {
   return {
@@ -30,35 +31,37 @@ function sessionButtonStyle(done, locked) {
 }
 
 export default function TrackerSection({ sessions, cw, monthDone, toggle, resetMonth }) {
+  const { t, lang } = useI18n();
   return (
     <section id="tracker" style={{ padding: '38px 20px 8px', scrollMarginTop: 64 }}>
-      <div style={{ fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--color-accent)' }}>This month</div>
+      <div style={{ fontSize: 10, letterSpacing: '0.16em', textTransform: 'uppercase', color: 'var(--color-accent)' }}>{t('trackerKicker')}</div>
       <h2 style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, fontSize: 26, letterSpacing: '-0.02em', margin: '8px 0 4px' }}>
-        Tap a session when it&rsquo;s done
+        {t('trackerTitle')}
       </h2>
       <p style={{ margin: '0 0 20px', fontSize: 13, lineHeight: 1.55, color: 'color-mix(in srgb,var(--color-text) 62%,transparent)' }}>
-        Finish all four in a week and the next one unlocks. Weeks 3–4 swap in the second exercise set.
+        {t('trackerBody')}
       </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {[0, 1, 2, 3].map((w) => {
           const wDone = sessions.slice(w * 4, w * 4 + 4).filter(Boolean).length;
           const active = w === cw && !monthDone;
           const locked = w > cw;
-          const status = wDone === 4 ? 'Complete' : locked ? 'Locked' : `${wDone} of 4`;
+          const status = wDone === 4 ? t('complete') : locked ? t('locked') : `${wDone} ${t('ofFour')}`;
           const statusColor = wDone === 4 ? 'var(--color-accent-300)' : 'color-mix(in srgb,var(--color-text) 45%,transparent)';
           return (
             <div key={w} style={weekCardStyle(active, locked)}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-                <span style={{ fontFamily: 'var(--font-heading)', fontSize: 14 }}>Week {w + 1}</span>
-                <span className="tag tag-neutral">{w < 2 ? 'Set A' : 'Set B'}</span>
-                <span style={{ marginLeft: 'auto', fontSize: 11, color: statusColor }}>{status}</span>
+                <span style={{ fontFamily: 'var(--font-heading)', fontSize: 14 }}>{t('week')} {w + 1}</span>
+                <span className="tag tag-neutral">{w < 2 ? t('setA') : t('setB')}</span>
+                <span style={{ marginInlineStart: 'auto', fontSize: 11, color: statusColor }}>{status}</span>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 8 }}>
                 {[0, 1, 2, 3].map((d) => {
                   const i = w * 4 + d;
                   const done = sessions[i];
-                  const short = DAYS[d].label === 'Upper + Core' ? 'Up+Co' : DAYS[d].label;
-                  const aria = `Week ${w + 1} ${DAYS[d].label} session${done ? ', done' : ''}`;
+                  const dayLabel = lang === 'ar' ? DAYS[d].ar.label : DAYS[d].label;
+                  const short = DAYS[d].id === 'core' ? t('upperCoreShort') : dayLabel;
+                  const aria = `${t('week')} ${w + 1} ${dayLabel}${done ? ', ' + t('complete') : ''}`;
                   return (
                     <button
                       key={i}
@@ -93,7 +96,7 @@ export default function TrackerSection({ sessions, cw, monthDone, toggle, resetM
           onClick={resetMonth}
           style={{ marginTop: 14, animation: 'ip-halo 1.8s ease-out 3' }}
         >
-          Start a new month
+          {t('startNewMonth')}
         </button>
       )}
     </section>
