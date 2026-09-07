@@ -9,12 +9,7 @@ import { weeklyGuidanceKey } from '../utils/guidance';
 import { addPhoto, deletePhoto, fileToDataUrl, listPhotos } from '../utils/photoStore';
 import MiniLineChart from './MiniLineChart';
 
-const cardStyle = {
-  padding: 14,
-  borderRadius: 'var(--radius-md)',
-  background: 'var(--color-surface)',
-  boxShadow: 'var(--shadow-sm)',
-};
+const cardStyle = { padding: 16 };
 const kicker = { fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: 8 };
 const fieldRow = { display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 };
 const GOAL_TYPES = ['lose_fat', 'build_muscle', 'recomp', 'maintain'];
@@ -87,7 +82,7 @@ export default function BodyPage() {
   return (
     <div style={{ padding: '20px 20px 40px', display: 'flex', flexDirection: 'column', gap: 22 }}>
       {/* Profile */}
-      <section style={cardStyle}>
+      <section className="ip-glass" style={cardStyle}>
         <div style={kicker}>{t('profileTitle')}</div>
         <p style={{ margin: '0 0 10px', fontSize: 12, color: 'color-mix(in srgb,var(--color-text) 60%,transparent)' }}>{t('profileHint')}</p>
         <div style={{ ...fieldRow, marginBottom: 10 }}>
@@ -123,7 +118,7 @@ export default function BodyPage() {
       </section>
 
       {/* Goal */}
-      <section style={cardStyle}>
+      <section className="ip-glass" style={cardStyle}>
         <div style={kicker}>{t('goalTitle')}</div>
         <div style={{ marginBottom: 10 }}>
           <label style={{ display: 'block', fontSize: 12, marginBottom: 5, color: 'color-mix(in srgb,var(--color-text) 70%,transparent)' }}>{t('goalType')}</label>
@@ -152,7 +147,10 @@ export default function BodyPage() {
       </section>
 
       {/* Guidance */}
-      <section style={{ ...cardStyle, background: 'linear-gradient(150deg, var(--color-accent-900), var(--color-surface))', boxShadow: '0 0 0 1px var(--color-accent-700)' }}>
+      <section
+        className="ip-glass"
+        style={{ ...cardStyle, background: 'color-mix(in srgb, var(--color-accent) 14%, var(--glass-bg))', boxShadow: 'var(--glass-glow)' }}
+      >
         <div style={kicker}>{t('guidanceTitle')}</div>
         {!hasProfileAndWeight ? (
           <p style={{ margin: 0, fontSize: 13 }}>{t('guidanceNeedsProfile')}</p>
@@ -160,11 +158,11 @@ export default function BodyPage() {
           <>
             <div style={{ display: 'flex', gap: 18, marginBottom: 10 }}>
               <div>
-                <div style={{ fontFamily: 'var(--font-heading)', fontSize: 22, color: 'var(--color-accent)' }}>{calories}</div>
+                <div style={{ fontFamily: 'var(--font-heading)', fontSize: 22, color: 'var(--color-accent-2)' }}>{calories}</div>
                 <div style={{ fontSize: 10.5, color: 'color-mix(in srgb,var(--color-text) 55%,transparent)' }}>{t('dailyCalories')} ({t('kcal')})</div>
               </div>
               <div>
-                <div style={{ fontFamily: 'var(--font-heading)', fontSize: 22, color: 'var(--color-accent)' }}>{protein}</div>
+                <div style={{ fontFamily: 'var(--font-heading)', fontSize: 22, color: 'var(--color-accent-2)' }}>{protein}</div>
                 <div style={{ fontSize: 10.5, color: 'color-mix(in srgb,var(--color-text) 55%,transparent)' }}>{t('dailyProtein')} ({t('gramsShort')})</div>
               </div>
             </div>
@@ -177,7 +175,7 @@ export default function BodyPage() {
       </section>
 
       {/* Body log */}
-      <section style={cardStyle}>
+      <section className="ip-glass" style={cardStyle}>
         <div style={kicker}>{t('bodyLogTitle')}</div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 8, marginBottom: 10 }}>
           <Field label={t('weightKgLabel')}>
@@ -216,7 +214,7 @@ export default function BodyPage() {
       </section>
 
       {/* Progress photos */}
-      <section style={cardStyle}>
+      <section className="ip-glass" style={cardStyle}>
         <div style={kicker}>{t('photosTitle')}</div>
         <p style={{ margin: '0 0 10px', fontSize: 12, color: 'color-mix(in srgb,var(--color-text) 60%,transparent)' }}>{t('photosHint')}</p>
         <button type="button" className="btn btn-secondary" onClick={() => fileRef.current?.click()}>{t('addPhoto')}</button>

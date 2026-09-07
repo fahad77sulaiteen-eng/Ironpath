@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react';
 import { useI18n } from '../i18n/I18nContext';
-import { useTheme } from '../theme/ThemeContext';
 import { exportData, importData } from '../utils/exportImport';
 
 const rowStyle = { display: 'flex', flexDirection: 'column', gap: 6 };
@@ -8,7 +7,6 @@ const labelStyle = { fontSize: 12, color: 'color-mix(in srgb,var(--color-text) 7
 
 export default function DataSettings({ open, onClose, settings, updateSettings }) {
   const { t, lang, setLang } = useI18n();
-  const { theme, setTheme } = useTheme();
   const fileRef = useRef(null);
   const [permissionDenied, setPermissionDenied] = useState(false);
 
@@ -70,20 +68,6 @@ export default function DataSettings({ open, onClose, settings, updateSettings }
             <label className="seg-opt">
               <input type="radio" name="ip-lang" checked={lang === 'en'} onChange={() => setLang('en')} style={{ position: 'absolute', width: 1, height: 1, opacity: 0 }} />
               English
-            </label>
-          </div>
-        </div>
-
-        <div style={rowStyle}>
-          <label style={labelStyle}>{t('themeTitle')}</label>
-          <div className="seg" role="tablist" style={{ width: 'fit-content' }}>
-            <label className="seg-opt">
-              <input type="radio" name="ip-theme" checked={theme === 'light'} onChange={() => setTheme('light')} style={{ position: 'absolute', width: 1, height: 1, opacity: 0 }} />
-              {t('themeLight')}
-            </label>
-            <label className="seg-opt">
-              <input type="radio" name="ip-theme" checked={theme === 'dark'} onChange={() => setTheme('dark')} style={{ position: 'absolute', width: 1, height: 1, opacity: 0 }} />
-              {t('themeDark')}
             </label>
           </div>
         </div>

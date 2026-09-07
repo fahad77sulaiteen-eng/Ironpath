@@ -10,16 +10,16 @@ export const C = {
   housingLight: '#464b62',
   pad: '#2f3244', // upholstered seat/back pad
   padLight: '#484d67',
-  accent: '#5b4bc7', // brand accent — moving parts, handles, highlights
-  accentLight: '#9384e3',
-  accentDeep: '#453797',
+  accent: '#6c5ce7', // brand accent — moving parts, handles, highlights
+  accentLight: '#9b8cff',
+  accentDeep: '#4d3fb0',
   cable: '#9aa0b5', // steel cable
   cableLight: '#d3d6e3',
   plate: '#7a8296', // weight plate, mid tone
   plateLight: '#9aa1b3',
   plateDark: '#5b6479',
   edge: '#4a4f62', // outlines / strokes on frame parts
-  muscle: '#5b4bc7', // worked-muscle highlight on the body figure
+  muscle: '#6c5ce7', // worked-muscle highlight on the body figure
   bodyLine: '#8b93a8', // stick-figure limb color
   shadow: 'rgba(26,28,39,0.14)',
 };

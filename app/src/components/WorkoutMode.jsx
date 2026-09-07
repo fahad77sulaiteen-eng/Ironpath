@@ -54,9 +54,10 @@ export default function WorkoutMode({ dayTitle, exercises, workoutLogs, settings
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '14px 18px',
-          background: 'color-mix(in srgb, var(--color-bg) 88%, transparent)',
-          backdropFilter: 'blur(12px)',
-          borderBottom: '1px solid var(--color-divider)',
+          background: 'var(--glass-bg-strong)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-blur)',
+          borderBottom: '1px solid var(--glass-border)',
         }}
       >
         <span style={{ fontSize: 13, color: 'color-mix(in srgb,var(--color-text) 60%,transparent)' }}>
@@ -80,7 +81,7 @@ export default function WorkoutMode({ dayTitle, exercises, workoutLogs, settings
           <div style={{ fontSize: 14, color: 'color-mix(in srgb,var(--color-text) 55%,transparent)', marginBottom: 10 }}>{machine}</div>
 
           <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 14 }}>
-            <div style={{ fontFamily: 'var(--font-heading)', fontSize: 32, color: 'var(--color-accent)', letterSpacing: '-0.02em' }}>{v.sets} × {v.reps}</div>
+            <div style={{ fontFamily: 'var(--font-heading)', fontSize: 32, color: 'var(--color-accent-2)', letterSpacing: '-0.02em', textShadow: '0 0 20px rgba(155,140,255,.4)' }}>{v.sets} × {v.reps}</div>
             {lastTop && (
               <div style={{ fontSize: 13, color: 'color-mix(in srgb,var(--color-text) 55%,transparent)' }}>
                 {t('lastTime')}: <strong style={{ color: 'var(--color-text)' }}>{lastTop.weight}{lang === 'ar' ? 'كجم' : 'kg'} × {lastTop.reps}</strong>
@@ -93,10 +94,11 @@ export default function WorkoutMode({ dayTitle, exercises, workoutLogs, settings
               padding: v.img ? 0 : '6px 8px 2px',
               overflow: 'hidden',
               borderRadius: 'var(--radius-md)',
+              border: '1px solid var(--glass-border)',
               background: v.img
                 ? 'linear-gradient(180deg, #1b1d29 0%, #101119 100%)'
-                : 'linear-gradient(180deg, color-mix(in srgb,var(--color-bg) 70%,#000) 0%, var(--color-neutral-900) 100%)',
-              boxShadow: 'inset 0 1px 0 color-mix(in srgb,var(--color-text) 8%,transparent), var(--shadow-sm)',
+                : 'linear-gradient(180deg, #1b1729 0%, #100d1a 100%)',
+              boxShadow: 'inset 0 1px 0 rgba(255,255,255,.06)',
               marginBottom: 14,
             }}
           >
@@ -137,9 +139,10 @@ export default function WorkoutMode({ dayTitle, exercises, workoutLogs, settings
             display: 'flex',
             gap: 10,
             padding: '12px 20px',
-            background: 'color-mix(in srgb, var(--color-bg) 92%, transparent)',
-            backdropFilter: 'blur(12px)',
-            borderTop: '1px solid var(--color-divider)',
+            background: 'var(--glass-bg-strong)',
+            backdropFilter: 'var(--glass-blur)',
+            WebkitBackdropFilter: 'var(--glass-blur)',
+            borderTop: '1px solid var(--glass-border)',
           }}
         >
           <button type="button" className="btn btn-secondary" style={{ flex: 1 }} onClick={goPrev} disabled={step === 0}>

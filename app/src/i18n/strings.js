@@ -195,10 +195,6 @@ export const STRINGS = {
     reminderPermissionDenied: 'لازم تسمح بالإشعارات من إعدادات المتصفح عشان يشتغل التذكير.',
     reminderMessage: 'ما سجّلت تمرين اليوم — وقت التمرين! 💪',
 
-    themeTitle: 'المظهر',
-    themeLight: 'فاتح',
-    themeDark: 'داكن',
-
     programModeLabel: 'برنامج التمرين',
     programModeAuto: 'تلقائي',
     programFourDay: 'برنامج ٤ أيام',
@@ -397,10 +393,6 @@ export const STRINGS = {
     reminderHint: "Only works while the app is open or installed on your device — a browser can't send a reminder while the app is fully closed without a server.",
     reminderPermissionDenied: 'Allow notifications in your browser settings for the reminder to work.',
     reminderMessage: "You haven't logged a workout today — time to train! 💪",
-
-    themeTitle: 'Appearance',
-    themeLight: 'Light',
-    themeDark: 'Dark',
 
     programModeLabel: 'Training program',
     programModeAuto: 'Auto',

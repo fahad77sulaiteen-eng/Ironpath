@@ -4,9 +4,12 @@ import { useI18n } from '../i18n/I18nContext';
 function weekCardStyle(active, locked) {
   return {
     padding: 12,
-    borderRadius: 'var(--radius-md)',
-    background: active ? 'linear-gradient(150deg, var(--color-accent-900), var(--color-surface))' : 'var(--color-neutral-900)',
-    boxShadow: active ? '0 0 0 1px var(--color-accent-600)' : 'var(--shadow-sm)',
+    borderRadius: 'var(--radius-lg)',
+    background: active ? 'color-mix(in srgb, var(--color-accent) 16%, var(--glass-bg))' : 'var(--glass-bg)',
+    backdropFilter: 'var(--glass-blur)',
+    WebkitBackdropFilter: 'var(--glass-blur)',
+    border: `1px solid ${active ? 'rgba(108,92,231,.5)' : 'var(--glass-border)'}`,
+    boxShadow: active ? 'var(--glass-glow)' : 'var(--glass-shadow)',
     opacity: locked ? 0.5 : 1,
     transition: 'opacity .25s ease',
   };
@@ -23,9 +26,10 @@ function sessionButtonStyle(done, locked) {
     padding: '8px 2px',
     borderRadius: 'var(--radius-sm)',
     cursor: locked ? 'not-allowed' : 'pointer',
-    color: done ? 'var(--color-accent-200)' : 'color-mix(in srgb,var(--color-text) 60%,transparent)',
-    background: done ? 'color-mix(in srgb, var(--color-accent) 20%, transparent)' : 'color-mix(in srgb, var(--color-text) 4%, transparent)',
-    border: `1px solid ${done ? 'var(--color-accent-600)' : 'var(--color-divider)'}`,
+    color: done ? 'var(--color-accent-2)' : 'color-mix(in srgb,var(--color-text) 60%,transparent)',
+    background: done ? 'color-mix(in srgb, var(--color-accent) 24%, transparent)' : 'rgba(255,255,255,.04)',
+    border: `1px solid ${done ? 'rgba(108,92,231,.6)' : 'var(--glass-border)'}`,
+    boxShadow: done ? '0 0 12px rgba(108,92,231,.3)' : 'none',
     transition: 'transform .15s ease, background .2s ease',
   };
 }

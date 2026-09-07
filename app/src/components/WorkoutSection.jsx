@@ -105,15 +105,13 @@ export default function WorkoutSection({ day, selectDay, cw, workoutLogs, settin
 
       {dayNote && (
         <p
+          className="ip-glass-soft"
           style={{
             margin: '0 0 16px',
             padding: '10px 12px',
-            borderRadius: 'var(--radius-sm)',
-            background: 'color-mix(in srgb, var(--color-accent) 10%, transparent)',
-            border: '1px solid color-mix(in srgb, var(--color-accent) 25%, transparent)',
             fontSize: 12.5,
             lineHeight: 1.55,
-            color: 'color-mix(in srgb,var(--color-text) 80%,transparent)',
+            color: 'color-mix(in srgb,var(--color-text) 85%,transparent)',
           }}
         >
           {dayNote}
@@ -121,15 +119,7 @@ export default function WorkoutSection({ day, selectDay, cw, workoutLogs, settin
       )}
 
       {isCardioDay && (
-        <div
-          style={{
-            margin: '0 0 20px',
-            padding: 14,
-            borderRadius: 'var(--radius-md)',
-            background: 'var(--color-neutral-900)',
-            border: '1px solid var(--color-divider)',
-          }}
-        >
+        <div className="ip-glass" style={{ margin: '0 0 20px', padding: 14 }}>
           <div style={{ fontFamily: 'var(--font-heading)', fontSize: 15, marginBottom: 4 }}>
             {CARDIO_INFO.minutesLow}–{CARDIO_INFO.minutesHigh} {t('unitMinutes')} {t('cardioSteady')}
           </div>
@@ -156,7 +146,7 @@ export default function WorkoutSection({ day, selectDay, cw, workoutLogs, settin
         <button
           type="button"
           className="tag tag-outline"
-          style={{ cursor: 'pointer', border: !muscleFilter ? '1px solid var(--color-accent)' : '1px solid var(--color-divider)', background: 'none', color: !muscleFilter ? 'var(--color-accent)' : 'var(--color-text)' }}
+          style={{ cursor: 'pointer', border: !muscleFilter ? '1px solid var(--color-accent)' : '1px solid var(--glass-border)', color: !muscleFilter ? 'var(--color-accent-2)' : 'var(--color-text)' }}
           onClick={() => setMuscleFilter(null)}
         >
           {t('filterAll')}
@@ -166,7 +156,7 @@ export default function WorkoutSection({ day, selectDay, cw, workoutLogs, settin
             key={g.id}
             type="button"
             className="tag tag-outline"
-            style={{ cursor: 'pointer', border: muscleFilter === g.id ? '1px solid var(--color-accent)' : '1px solid var(--color-divider)', background: 'none', color: muscleFilter === g.id ? 'var(--color-accent)' : 'var(--color-text)' }}
+            style={{ cursor: 'pointer', border: muscleFilter === g.id ? '1px solid var(--color-accent)' : '1px solid var(--glass-border)', color: muscleFilter === g.id ? 'var(--color-accent-2)' : 'var(--color-text)' }}
             onClick={() => setMuscleFilter(g.id)}
           >
             {t(g.labelKey)}
@@ -177,7 +167,7 @@ export default function WorkoutSection({ day, selectDay, cw, workoutLogs, settin
       {filtered.length === 0 ? (
         <p style={{ fontSize: 13, color: 'color-mix(in srgb,var(--color-text) 55%,transparent)' }}>{t('noExercisesMatch')}</p>
       ) : (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 26 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
           {filtered.map(({ entry: e, index: i, variant: v }) => {
             const name = lang === 'ar' ? v.nameAr : v.name;
             const machine = lang === 'ar' ? v.machineAr : v.machine;
@@ -200,7 +190,7 @@ export default function WorkoutSection({ day, selectDay, cw, workoutLogs, settin
               .filter(Boolean);
 
             return (
-              <article key={i} style={{ borderTop: '1px solid var(--color-divider)', paddingTop: 14 }}>
+              <article key={i} className="ip-glass" style={{ padding: 16 }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
                   <div style={{ fontFamily: 'var(--font-heading)', fontSize: 11, color: 'color-mix(in srgb,var(--color-text) 38%,transparent)', paddingTop: 4, width: 16, flex: 'none' }}>
                     {String(i + 1).padStart(2, '0')}
@@ -217,7 +207,7 @@ export default function WorkoutSection({ day, selectDay, cw, workoutLogs, settin
                     )}
                   </div>
                   <div style={{ textAlign: 'end', flex: 'none' }}>
-                    <div style={{ fontFamily: 'var(--font-heading)', fontSize: 23, color: 'var(--color-accent)', lineHeight: 1, letterSpacing: '-0.02em' }}>
+                    <div style={{ fontFamily: 'var(--font-heading)', fontSize: 23, color: 'var(--color-accent-2)', lineHeight: 1, letterSpacing: '-0.02em', textShadow: '0 0 16px rgba(155,140,255,.4)' }}>
                       {v.sets} × {v.reps}
                     </div>
                     <div style={{ fontSize: 9.5, letterSpacing: '0.12em', textTransform: 'uppercase', color: 'color-mix(in srgb,var(--color-text) 40%,transparent)', marginTop: 3 }}>
@@ -259,7 +249,7 @@ export default function WorkoutSection({ day, selectDay, cw, workoutLogs, settin
                 </div>
 
                 {swapPickerOpen === i && (
-                  <div style={{ marginTop: 8, padding: 10, borderRadius: 'var(--radius-sm)', background: 'var(--color-neutral-900)', border: '1px solid var(--color-divider)' }}>
+                  <div className="ip-glass-soft" style={{ marginTop: 8, padding: 10 }}>
                     <div style={{ fontSize: 11, marginBottom: 6, color: 'color-mix(in srgb,var(--color-text) 60%,transparent)' }}>{t('swapPickAlternative')}</div>
                     {alternatives.length === 0 ? (
                       <p style={{ margin: 0, fontSize: 12 }}>{t('swapNoAlternatives')}</p>
@@ -287,10 +277,11 @@ export default function WorkoutSection({ day, selectDay, cw, workoutLogs, settin
                     padding: v.img ? 0 : '6px 8px 2px',
                     overflow: 'hidden',
                     borderRadius: 'var(--radius-md)',
+                    border: '1px solid var(--glass-border)',
                     background: v.img
                       ? 'linear-gradient(180deg, #1b1d29 0%, #101119 100%)'
-                      : 'linear-gradient(180deg, color-mix(in srgb,var(--color-bg) 70%,#000) 0%, var(--color-neutral-900) 100%)',
-                    boxShadow: 'inset 0 1px 0 color-mix(in srgb,var(--color-text) 8%,transparent), var(--shadow-sm)',
+                      : 'linear-gradient(180deg, #1b1729 0%, #100d1a 100%)',
+                    boxShadow: 'inset 0 1px 0 rgba(255,255,255,.06)',
                   }}
                 >
                   {v.img ? (

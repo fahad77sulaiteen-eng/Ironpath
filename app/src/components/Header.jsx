@@ -15,10 +15,10 @@ export default function Header({ doneCount, onOpenSettings }) {
         alignItems: 'center',
         gap: 12,
         padding: '10px 18px',
-        background: 'color-mix(in srgb, var(--color-bg) 72%, transparent)',
-        backdropFilter: 'blur(16px) saturate(140%)',
-        WebkitBackdropFilter: 'blur(16px) saturate(140%)',
-        borderBottom: '1px solid var(--color-divider)',
+        background: 'var(--glass-bg-strong)',
+        backdropFilter: 'var(--glass-blur)',
+        WebkitBackdropFilter: 'var(--glass-blur)',
+        borderBottom: '1px solid var(--glass-border)',
       }}
     >
       <div style={{ display: 'flex', flexDirection: 'column', marginInlineEnd: 'auto', lineHeight: 1.1 }}>
@@ -36,7 +36,11 @@ export default function Header({ doneCount, onOpenSettings }) {
       </div>
       <svg viewBox="0 0 32 32" style={{ width: 36, height: 36, transform: 'rotate(-90deg)', flex: 'none' }} role="img" aria-label={t('monthlyProgress')}>
         <circle cx={16} cy={16} r={13} fill="none" stroke="var(--color-neutral-800)" strokeWidth={3} />
-        <circle cx={16} cy={16} r={13} fill="none" stroke="var(--color-accent)" strokeWidth={3} strokeLinecap="round" strokeDasharray={dash} />
+        <circle
+          cx={16} cy={16} r={13} fill="none" stroke="var(--color-accent)" strokeWidth={3} strokeLinecap="round"
+          strokeDasharray={dash}
+          style={{ filter: 'drop-shadow(0 0 4px rgba(108,92,231,.7))' }}
+        />
       </svg>
       <button
         type="button"

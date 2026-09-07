@@ -42,7 +42,7 @@ export default function MiniLineChart({ points, unit }) {
       <line x1={PAD_X} y1={H - PAD_Y} x2={W - PAD_X} y2={H - PAD_Y} stroke="var(--color-divider)" strokeWidth={1} />
       <path d={areaPath} fill={`url(#${uid}-fill)`} />
       <path d={linePath} fill="none" stroke="var(--color-accent)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-      <circle cx={last[0]} cy={last[1]} r={3.2} fill="var(--color-accent)" />
+      <circle cx={last[0]} cy={last[1]} r={3.2} fill="var(--color-accent-2)" style={{ filter: 'drop-shadow(0 0 4px rgba(155,140,255,.8))' }} />
       <text x={PAD_X} y={10} fontSize={9} fill="color-mix(in srgb,var(--color-text) 45%,transparent)">
         {max}{unit}
       </text>

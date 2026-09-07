@@ -20,14 +20,12 @@ export default function SplitSection() {
           return (
             <article
               key={d.id}
+              className="ip-glass ip-glass-press"
               style={{
                 display: 'flex',
                 gap: 10,
                 alignItems: 'center',
                 padding: 12,
-                borderRadius: 'var(--radius-md)',
-                background: 'linear-gradient(160deg, var(--color-neutral-900), var(--color-surface))',
-                boxShadow: 'var(--shadow-sm)',
               }}
             >
               <div style={{ flex: 'none', width: 54 }}>

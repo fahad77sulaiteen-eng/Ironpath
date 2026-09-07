@@ -89,6 +89,57 @@ h1, h2, h3, h4 { font-family: var(--font-heading); font-weight: var(--font-headi
 
 .lighten{mix-blend-mode:lighten;background-color:transparent}
 
+/* — glass utility — shared frosted-panel look for the many hand-styled
+   "card" divs across the app that don't go through .card itself. */
+.ip-glass {
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  border-radius: var(--radius-lg);
+}
+.ip-glass-soft {
+  background: var(--glass-bg-soft);
+  -webkit-backdrop-filter: var(--glass-blur-sm);
+  backdrop-filter: var(--glass-blur-sm);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+}
+.ip-glass-strong {
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: var(--glass-blur);
+  backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+}
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .ip-glass, .ip-glass-strong { background: var(--glass-bg-fallback); }
+  .ip-glass-soft { background: var(--glass-bg-fallback); }
+}
+.ip-glass-press { transition: transform .15s ease, background .2s ease, box-shadow .2s ease; }
+.ip-glass-press:active { transform: scale(0.98); background: var(--glass-bg-strong); }
+
+/* Animated mesh-gradient backdrop, painted once behind the whole app.
+   Three soft violet/indigo blobs drift slowly; frozen under
+   prefers-reduced-motion by the blanket rule at the bottom of ironpath.css. */
+#ip-mesh-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(38% 32% at 18% 22%, rgba(108, 92, 231, 0.22) 0%, transparent 70%),
+    radial-gradient(42% 36% at 82% 68%, rgba(58, 46, 107, 0.55) 0%, transparent 72%),
+    radial-gradient(50% 42% at 50% 100%, rgba(26, 20, 48, 0.65) 0%, transparent 75%),
+    linear-gradient(180deg, #120e1c 0%, #0b0910 100%);
+  background-size: 180% 180%, 200% 200%, 160% 160%, 100% 100%;
+  animation: ip-mesh-drift 26s ease-in-out infinite;
+}
+@keyframes ip-mesh-drift {
+  0%, 100% { background-position: 0% 0%, 100% 100%, 50% 100%, 0 0; }
+  50% { background-position: 20% 15%, 75% 80%, 40% 85%, 0 0; }
+}
+
 /* ══════════════════════════════════════════════════════════════════════════
    Components — built with the tokens above. Plain CSS
    on plain HTML: no JavaScript, no build step. Each class is documented in
@@ -142,19 +193,29 @@ figcaption {
      the pair sits side by side in sign-up rows */
   background: transparent; border: 1px solid transparent;
   padding: var(--space-2) calc(var(--space-3) * 1.2);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
+  transition: transform .15s ease, background .2s ease, box-shadow .2s ease;
 }
 .btn svg { display: block; }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-.btn-primary { color: var(--color-accent); border-color: var(--color-accent); }
-.btn-primary:hover { background: color-mix(in srgb, var(--color-accent) 12%, transparent); }
-.btn-primary:active { background: color-mix(in srgb, var(--color-accent) 22%, transparent); }
-.btn-secondary { border-color: var(--color-divider); }
-.btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
-.btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
-.btn-ghost { color: var(--color-accent); padding-inline: var(--space-1); }
-.btn-ghost:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
-.btn-ghost:active { background: color-mix(in srgb, var(--color-accent) 18%, transparent); }
+.btn:active { transform: scale(0.97); }
+.btn-primary {
+  color: var(--color-accent-2); border-color: color-mix(in srgb, var(--color-accent) 55%, transparent);
+  background: var(--glass-bg-soft);
+  -webkit-backdrop-filter: var(--glass-blur-sm); backdrop-filter: var(--glass-blur-sm);
+}
+.btn-primary:hover { background: color-mix(in srgb, var(--color-accent) 18%, var(--glass-bg-soft)); box-shadow: 0 0 16px rgba(108, 92, 231, 0.3); }
+.btn-primary:active { background: color-mix(in srgb, var(--color-accent) 28%, var(--glass-bg-soft)); }
+.btn-secondary {
+  border-color: var(--glass-border);
+  background: var(--glass-bg-soft);
+  -webkit-backdrop-filter: var(--glass-blur-sm); backdrop-filter: var(--glass-blur-sm);
+}
+.btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 8%, var(--glass-bg-soft)); }
+.btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, var(--glass-bg-soft)); }
+.btn-ghost { color: var(--color-accent-2); padding-inline: var(--space-1); }
+.btn-ghost:hover { background: color-mix(in srgb, var(--color-accent) 12%, transparent); }
+.btn-ghost:active { background: color-mix(in srgb, var(--color-accent) 20%, transparent); }
 .btn-icon { width: 36px; height: 36px; padding: 0; }
 .btn-block { width: 100%; margin-top: var(--space-2); }
 
@@ -166,11 +227,12 @@ figcaption {
 .input {
   width: 100%; min-height: 36px; padding: 6px 10px; font: inherit;
   font-size: 14px; color: var(--color-text); caret-color: var(--color-accent);
-  background: var(--color-surface);
-  border: 1px solid var(--color-divider); border-radius: var(--radius-md);
+  background: var(--glass-bg-soft);
+  -webkit-backdrop-filter: var(--glass-blur-sm); backdrop-filter: var(--glass-blur-sm);
+  border: 1px solid var(--glass-border); border-radius: var(--radius-sm);
 }
-.input:hover { border-color: color-mix(in srgb, var(--color-text) 45%, transparent); }
-.input:focus-visible { border-color: var(--color-accent); outline-offset: 0; }
+.input:hover { border-color: color-mix(in srgb, var(--color-text) 35%, transparent); }
+.input:focus-visible { border-color: var(--color-accent); outline-offset: 0; box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.25); }
 textarea.input { min-height: 90px; resize: vertical; }
 .radio { display: inline-flex; align-items: center; gap: 8px; cursor: pointer; font-size: 14px; }
 .radio input, .seg-opt input {
@@ -188,21 +250,32 @@ textarea.input { min-height: 90px; resize: vertical; }
 .radio input:focus-visible + .dot { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 .seg {
   display: inline-flex; overflow: hidden;
-  border: 1px solid var(--color-divider); border-radius: var(--radius-md);
+  border: 1px solid var(--glass-border); border-radius: var(--radius-sm);
+  background: var(--glass-bg-soft);
+  -webkit-backdrop-filter: var(--glass-blur-sm); backdrop-filter: var(--glass-blur-sm);
 }
 .seg-opt {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 7px 12px; font-size: 13px; cursor: pointer;
+  transition: background .2s ease, color .2s ease;
 }
-.seg-opt + .seg-opt { border-left: 1px solid var(--color-divider); }
-.seg-opt:has(input:checked) { color: var(--color-accent); box-shadow: inset 0 0 0 1px var(--color-accent); }
+.seg-opt + .seg-opt { border-left: 1px solid var(--glass-border); }
+.seg-opt:has(input:checked) {
+  color: var(--color-accent-2);
+  background: color-mix(in srgb, var(--color-accent) 22%, transparent);
+  box-shadow: inset 0 0 0 1px rgba(108, 92, 231, 0.55), 0 0 12px rgba(108, 92, 231, 0.28);
+}
 .seg-opt:not(:has(input:checked)):hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
 .seg-opt:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: -2px; }
 
 /* — cards — */
 .card {
   display: flex; flex-direction: column; gap: var(--space-2);
-  padding: var(--space-3); border-radius: var(--radius-md); background: var(--color-surface);
+  padding: var(--space-4); border-radius: var(--radius-lg);
+  background: var(--glass-bg);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
 }
 .card-kicker { font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--color-accent); }
 .card-title {
@@ -222,12 +295,14 @@ textarea.input { min-height: 90px; resize: vertical; }
 .tag {
   display: inline-flex; align-items: center; font-size: 11px;
   letter-spacing: 0.02em; padding: 3px 10px;
-  border-radius: calc(var(--radius-md) * 0.75);
+  border-radius: 999px;
+  border: 1px solid transparent;
+  -webkit-backdrop-filter: var(--glass-blur-sm); backdrop-filter: var(--glass-blur-sm);
 }
-.tag-accent { background: var(--color-accent-800); color: var(--color-accent-100); }
-.tag-accent-2 { background: var(--color-accent-2-800); color: var(--color-accent-2-100); }
-.tag-neutral { background: var(--color-neutral-800); color: var(--color-neutral-100); }
-.tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent); }
+.tag-accent { background: var(--color-accent-800); color: var(--color-accent-200); border-color: rgba(108, 92, 231, 0.4); }
+.tag-accent-2 { background: var(--color-accent-2-800); color: var(--color-accent-2-200); border-color: rgba(108, 92, 231, 0.4); }
+.tag-neutral { background: var(--glass-bg-soft); color: var(--color-neutral-200); border-color: var(--glass-border); }
+.tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent-2); background: var(--glass-bg-soft); }
 
 /* — navigation — */
 .nav {
@@ -278,12 +353,16 @@ textarea.input { min-height: 90px; resize: vertical; }
 .dialog-backdrop {
   position: fixed; inset: 0; display: grid; place-items: center;
   padding: var(--space-4);
-  background: color-mix(in srgb, var(--color-neutral-900) 50%, transparent);
+  background: rgba(5, 4, 9, 0.6);
+  -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
 }
 .dialog {
   width: min(440px, 100%); display: flex; flex-direction: column; gap: var(--space-3);
   padding: var(--space-4); border-radius: var(--radius-lg);
-  background: var(--color-surface); box-shadow: var(--shadow-lg);
+  background: var(--glass-bg-strong);
+  -webkit-backdrop-filter: var(--glass-blur); backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--shadow-lg);
 }
 .dialog-title {
   font-family: var(--font-heading); font-weight: var(--font-heading-weight);

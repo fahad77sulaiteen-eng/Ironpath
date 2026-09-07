@@ -28,11 +28,15 @@ export default function App() {
   useTrainingReminder(settings.reminderEnabled, workoutLogs.logs);
 
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--color-bg)', display: 'flex', justifyContent: 'center' }}>
+    <div style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center' }}>
+      <div id="ip-mesh-bg" aria-hidden="true" />
       <div style={{ width: '100%', maxWidth: 468, position: 'relative', borderInlineStart: '1px solid var(--color-divider)', borderInlineEnd: '1px solid var(--color-divider)' }}>
         <Header doneCount={doneCount} onOpenSettings={() => setSettingsOpen(true)} />
 
-        <div style={{ position: 'sticky', top: 57, zIndex: 30, padding: '10px 20px 0', background: 'var(--color-bg)' }}>
+        <div
+          className="ip-glass-soft"
+          style={{ position: 'sticky', top: 57, zIndex: 30, padding: '10px 20px', margin: '0 12px', borderRadius: 'var(--radius-md)' }}
+        >
           <div className="seg" role="tablist" style={{ width: '100%' }}>
             <label className="seg-opt" style={{ flex: 1, justifyContent: 'center' }}>
               <input type="radio" name="ip-view" checked={view === 'program'} onChange={() => setView('program')} style={{ position: 'absolute', width: 1, height: 1, opacity: 0 }} />

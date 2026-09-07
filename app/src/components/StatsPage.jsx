@@ -5,12 +5,7 @@ import { getWorkoutDates, currentStreak, longestStreak, sessionsThisMonth, total
 import { computeAchievements } from '../utils/achievements';
 import MiniLineChart from './MiniLineChart';
 
-const cardStyle = {
-  padding: 14,
-  borderRadius: 'var(--radius-md)',
-  background: 'var(--color-surface)',
-  boxShadow: 'var(--shadow-sm)',
-};
+const cardStyle = { padding: 16 };
 const kicker = { fontSize: 10, letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--color-accent)', marginBottom: 8 };
 
 const ACHIEVEMENT_KEYS = {
@@ -23,7 +18,7 @@ const ACHIEVEMENT_KEYS = {
 function StatTile({ value, label }) {
   return (
     <div style={{ flex: 1, minWidth: 0 }}>
-      <div style={{ fontFamily: 'var(--font-heading)', fontSize: 26, color: 'var(--color-accent)', letterSpacing: '-0.02em' }}>{value}</div>
+      <div style={{ fontFamily: 'var(--font-heading)', fontSize: 26, color: 'var(--color-accent-2)', letterSpacing: '-0.02em', textShadow: '0 0 16px rgba(155,140,255,.35)' }}>{value}</div>
       <div style={{ fontSize: 10.5, color: 'color-mix(in srgb,var(--color-text) 55%,transparent)', marginTop: 2 }}>{label}</div>
     </div>
   );
@@ -45,7 +40,7 @@ export default function StatsPage({ workoutLogs }) {
 
   return (
     <div style={{ padding: '20px 20px 40px', display: 'flex', flexDirection: 'column', gap: 22 }}>
-      <section style={cardStyle}>
+      <section className="ip-glass" style={cardStyle}>
         <div style={kicker}>{t('statsTitle')}</div>
         <div style={{ display: 'flex', gap: 14 }}>
           <StatTile value={monthCount} label={t('sessionsThisMonth')} />
@@ -54,7 +49,7 @@ export default function StatsPage({ workoutLogs }) {
         </div>
       </section>
 
-      <section style={cardStyle}>
+      <section className="ip-glass" style={cardStyle}>
         <div style={kicker}>{t('achievementsTitle')}</div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
           {achievements.map(({ id, unlocked }) => {
@@ -84,7 +79,7 @@ export default function StatsPage({ workoutLogs }) {
       </section>
 
       {weightPoints.length >= 2 && (
-        <section style={cardStyle}>
+        <section className="ip-glass" style={cardStyle}>
           <div style={kicker}>{t('weightTrendStats')}</div>
           <MiniLineChart points={weightPoints} unit={lang === 'ar' ? '' : 'kg'} />
         </section>

@@ -170,13 +170,14 @@ export default function HeroSection() {
       <div
         style={{
           position: 'relative',
-          background: 'color-mix(in srgb, var(--color-bg) 86%, transparent)',
-          backdropFilter: 'blur(14px) saturate(140%)',
-          WebkitBackdropFilter: 'blur(14px) saturate(140%)',
-          borderRadius: 18,
+          background: 'var(--glass-bg-strong)',
+          backdropFilter: 'var(--glass-blur)',
+          WebkitBackdropFilter: 'var(--glass-blur)',
+          border: '1px solid var(--glass-border)',
+          borderRadius: 'var(--radius-lg)',
           padding: '16px 18px 18px',
           margin: '0 -18px -18px',
-          boxShadow: '0 -8px 24px color-mix(in srgb, var(--color-bg) 60%, transparent)',
+          boxShadow: '0 -8px 24px rgba(0,0,0,.4)',
         }}
       >
         <span className="tag tag-outline" style={{ marginBottom: 16 }}>{t('heroTag')}</span>
