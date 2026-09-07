@@ -1,10 +1,12 @@
 /*
  * Light, high-contrast IronPath theme — overrides the Nocturne dark tokens.
- * Loaded after nocturne.css so these :root values win the cascade.
+ * Loaded after nocturne.css so these :root values win the cascade, unless
+ * the user picked dark mode (data-theme="dark" on <html>, set by
+ * theme/ThemeContext), in which case theme-dark.css's tokens apply instead.
  * Shadows switch to the "soft ink-tinted" light-theme variant the Nocturne
  * readme itself describes (dark theme uses a hairline edge + ambient dark).
  */
-:root {
+:root:not([data-theme="dark"]) {
   --color-bg: #f6f6fb;
   --color-surface: #ffffff;
   --color-text: #1a1c27;

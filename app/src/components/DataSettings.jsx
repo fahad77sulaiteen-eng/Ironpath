@@ -1,5 +1,6 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useI18n } from '../i18n/I18nContext';
+import { useTheme } from '../theme/ThemeContext';
 import { exportData, importData } from '../utils/exportImport';
 
 const rowStyle = { display: 'flex', flexDirection: 'column', gap: 6 };
@@ -7,11 +8,32 @@ const labelStyle = { fontSize: 12, color: 'color-mix(in srgb,var(--color-text) 7
 
 export default function DataSettings({ open, onClose, settings, updateSettings }) {
   const { t, lang, setLang } = useI18n();
+  const { theme, setTheme } = useTheme();
   const fileRef = useRef(null);
+  const [permissionDenied, setPermissionDenied] = useState(false);
 
   if (!open) return null;
 
   const handleImportClick = () => fileRef.current?.click();
+
+  const toggleReminder = async (checked) => {
+    if (!checked) {
+      updateSettings({ reminderEnabled: false });
+      setPermissionDenied(false);
+      return;
+    }
+    if (!('Notification' in window)) {
+      setPermissionDenied(true);
+      return;
+    }
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') {
+      updateSettings({ reminderEnabled: true });
+      setPermissionDenied(false);
+    } else {
+      setPermissionDenied(true);
+    }
+  };
 
   const handleFile = async (e) => {
     const file = e.target.files?.[0];
@@ -50,6 +72,33 @@ export default function DataSettings({ open, onClose, settings, updateSettings }
               English
             </label>
           </div>
+        </div>
+
+        <div style={rowStyle}>
+          <label style={labelStyle}>{t('themeTitle')}</label>
+          <div className="seg" role="tablist" style={{ width: 'fit-content' }}>
+            <label className="seg-opt">
+              <input type="radio" name="ip-theme" checked={theme === 'light'} onChange={() => setTheme('light')} style={{ position: 'absolute', width: 1, height: 1, opacity: 0 }} />
+              {t('themeLight')}
+            </label>
+            <label className="seg-opt">
+              <input type="radio" name="ip-theme" checked={theme === 'dark'} onChange={() => setTheme('dark')} style={{ position: 'absolute', width: 1, height: 1, opacity: 0 }} />
+              {t('themeDark')}
+            </label>
+          </div>
+        </div>
+
+        <div style={rowStyle}>
+          <label style={labelStyle}>{t('reminderTitle')}</label>
+          <label className="radio">
+            <input type="checkbox" checked={Boolean(settings.reminderEnabled)} onChange={(e) => toggleReminder(e.target.checked)} style={{ position: 'absolute', width: 1, height: 1, opacity: 0 }} />
+            <span className="dot" style={{ borderRadius: 'var(--radius-sm)' }} />
+            {t('reminderToggle')}
+          </label>
+          {permissionDenied && (
+            <p style={{ margin: 0, fontSize: 11.5, color: 'var(--color-accent)' }}>{t('reminderPermissionDenied')}</p>
+          )}
+          <p style={{ margin: 0, fontSize: 11.5, color: 'color-mix(in srgb,var(--color-text) 55%,transparent)' }}>{t('reminderHint')}</p>
         </div>
 
         <div style={rowStyle}>

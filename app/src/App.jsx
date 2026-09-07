@@ -7,9 +7,11 @@ import WorkoutSection from './components/WorkoutSection';
 import Footer from './components/Footer';
 import DataSettings from './components/DataSettings';
 import BodyPage from './components/BodyPage';
+import StatsPage from './components/StatsPage';
 import { useIronPath, currentWeek } from './hooks/useIronPath';
 import { useWorkoutLogs } from './hooks/useWorkoutLogs';
 import { useSettings } from './hooks/useSettings';
+import { useTrainingReminder } from './hooks/useTrainingReminder';
 import { useI18n } from './i18n/I18nContext';
 
 export default function App() {
@@ -22,6 +24,8 @@ export default function App() {
   const { settings, updateSettings } = useSettings();
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [view, setView] = useState('program');
+
+  useTrainingReminder(settings.reminderEnabled, workoutLogs.logs);
 
   return (
     <div style={{ minHeight: '100vh', background: 'var(--color-bg)', display: 'flex', justifyContent: 'center' }}>
@@ -38,10 +42,14 @@ export default function App() {
               <input type="radio" name="ip-view" checked={view === 'body'} onChange={() => setView('body')} style={{ position: 'absolute', width: 1, height: 1, opacity: 0 }} />
               {t('navBody')}
             </label>
+            <label className="seg-opt" style={{ flex: 1, justifyContent: 'center' }}>
+              <input type="radio" name="ip-view" checked={view === 'stats'} onChange={() => setView('stats')} style={{ position: 'absolute', width: 1, height: 1, opacity: 0 }} />
+              {t('navStats')}
+            </label>
           </div>
         </div>
 
-        {view === 'program' ? (
+        {view === 'program' && (
           <>
             <HeroSection />
             <SplitSection />
@@ -49,9 +57,9 @@ export default function App() {
             <WorkoutSection day={day} selectDay={selectDay} cw={cw} workoutLogs={workoutLogs} settings={settings} updateSettings={updateSettings} />
             <Footer />
           </>
-        ) : (
-          <BodyPage />
         )}
+        {view === 'body' && <BodyPage />}
+        {view === 'stats' && <StatsPage workoutLogs={workoutLogs} />}
       </div>
       <DataSettings open={settingsOpen} onClose={() => setSettingsOpen(false)} settings={settings} updateSettings={updateSettings} />
     </div>

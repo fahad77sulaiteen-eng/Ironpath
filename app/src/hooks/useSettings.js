@@ -7,6 +7,7 @@ const DEFAULTS = {
   weightIncrement: 2.5,
   repIncrement: 2,
   progressionMode: 'weight', // 'weight' | 'reps'
+  reminderEnabled: false,
 };
 
 function loadSettings() {
