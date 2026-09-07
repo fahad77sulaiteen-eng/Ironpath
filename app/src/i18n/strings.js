@@ -198,6 +198,14 @@ export const STRINGS = {
     themeTitle: 'المظهر',
     themeLight: 'فاتح',
     themeDark: 'داكن',
+
+    programModeLabel: 'برنامج التمرين',
+    programModeAuto: 'تلقائي',
+    programFourDay: 'برنامج ٤ أيام',
+    programUpperLower: 'أعلى / أسفل',
+    unitMinutes: 'دقيقة',
+    cardioSteady: 'كارديو ثابت',
+    cardioFinisherLabel: 'تمارين بطن اختيارية',
   },
   en: {
     appName: 'IronPath',
@@ -393,5 +401,13 @@ export const STRINGS = {
     themeTitle: 'Appearance',
     themeLight: 'Light',
     themeDark: 'Dark',
+
+    programModeLabel: 'Training program',
+    programModeAuto: 'Auto',
+    programFourDay: '4-Day Program',
+    programUpperLower: 'Upper / Lower',
+    unitMinutes: 'min',
+    cardioSteady: 'steady cardio',
+    cardioFinisherLabel: 'Optional core finisher',
   },
 };

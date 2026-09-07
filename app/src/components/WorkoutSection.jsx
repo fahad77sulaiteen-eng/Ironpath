@@ -4,23 +4,30 @@ import MachineDemo from './MachineDemo';
 import SetLogger from './SetLogger';
 import MiniLineChart from './MiniLineChart';
 import WorkoutMode from './WorkoutMode';
-import { DAYS, EX, DEMO_SPEED } from '../data/exercises';
+import { DEMO_SPEED, CARDIO_INFO } from '../data/exercises';
 import { MUSCLE_GROUPS, groupFor } from '../data/muscleGroups';
 import { useI18n } from '../i18n/I18nContext';
 import { lastSessionBefore, todayISO, topSet } from '../hooks/useWorkoutLogs';
 import { estimateOneRM, suggestNext } from '../utils/overload';
 import { pickVariant, findAlternatives } from '../utils/exerciseAlternatives';
+import { programForWeek, setKeyForWeek } from '../utils/programs';
 
 const DUR = Math.max(1.2, 2.5 / (DEMO_SPEED || 1)).toFixed(2);
 
 export default function WorkoutSection({ day, selectDay, cw, workoutLogs, settings, updateSettings }) {
   const { t, lang } = useI18n();
+  const program = programForWeek(cw, settings.programMode);
+  const DAYS = program.days;
+  const EX = program.ex;
   const activeDay = DAYS[day];
-  const setKey = cw < 2 ? 'a' : 'b';
+  const isCardioDay = activeDay.type === 'cardio';
+  const setKey = setKeyForWeek(cw, settings.programMode);
   const activeSetLabel = setKey === 'a' ? t('setA') : t('setB');
   const setNote = setKey === 'a' ? t('weeks12') : t('weeks34');
+  const programLabel = lang === 'ar' ? program.ar.label : program.label;
   const dayLabel = lang === 'ar' ? activeDay.ar.label : activeDay.label;
   const dayFocus = lang === 'ar' ? activeDay.ar.focus : activeDay.focus;
+  const dayNote = lang === 'ar' ? activeDay.ar.note : activeDay.note;
   const activeDayTitle = `${dayLabel} · ${dayFocus.toLowerCase()}`;
   const exercises = EX[activeDay.id];
 
@@ -81,14 +88,61 @@ export default function WorkoutSection({ day, selectDay, cw, workoutLogs, settin
               }}
               style={{ position: 'absolute', width: 1, height: 1, opacity: 0 }}
             />
-            {lang === 'ar' ? d.ar.label : d.label}
+            {lang === 'ar' ? (d.ar.short || d.ar.label) : (d.short || d.label)}
           </label>
         ))}
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 8, margin: '10px 0 16px', fontSize: 11, color: 'color-mix(in srgb,var(--color-text) 55%,transparent)' }}>
-        <span className="tag tag-accent">{activeSetLabel}</span>
-        <span>{setNote}</span>
+        {program.id === 'fourDay' ? (
+          <>
+            <span className="tag tag-accent">{activeSetLabel}</span>
+            <span>{setNote}</span>
+          </>
+        ) : (
+          <span className="tag tag-accent">{programLabel}</span>
+        )}
       </div>
+
+      {dayNote && (
+        <p
+          style={{
+            margin: '0 0 16px',
+            padding: '10px 12px',
+            borderRadius: 'var(--radius-sm)',
+            background: 'color-mix(in srgb, var(--color-accent) 10%, transparent)',
+            border: '1px solid color-mix(in srgb, var(--color-accent) 25%, transparent)',
+            fontSize: 12.5,
+            lineHeight: 1.55,
+            color: 'color-mix(in srgb,var(--color-text) 80%,transparent)',
+          }}
+        >
+          {dayNote}
+        </p>
+      )}
+
+      {isCardioDay && (
+        <div
+          style={{
+            margin: '0 0 20px',
+            padding: 14,
+            borderRadius: 'var(--radius-md)',
+            background: 'var(--color-neutral-900)',
+            border: '1px solid var(--color-divider)',
+          }}
+        >
+          <div style={{ fontFamily: 'var(--font-heading)', fontSize: 15, marginBottom: 4 }}>
+            {CARDIO_INFO.minutesLow}–{CARDIO_INFO.minutesHigh} {t('unitMinutes')} {t('cardioSteady')}
+          </div>
+          <p style={{ margin: 0, fontSize: 12.5, lineHeight: 1.5, color: 'color-mix(in srgb,var(--color-text) 70%,transparent)' }}>
+            {lang === 'ar' ? CARDIO_INFO.ar.mode : CARDIO_INFO.mode}
+          </p>
+          {exercises.length > 0 && (
+            <div style={{ marginTop: 10, fontSize: 11, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-accent)' }}>
+              {t('cardioFinisherLabel')}
+            </div>
+          )}
+        </div>
+      )}
 
       <input
         className="input"
@@ -131,7 +185,7 @@ export default function WorkoutSection({ day, selectDay, cw, workoutLogs, settin
             const muscle = lang === 'ar' ? v.muscleAr : v.muscle;
             const search2 = `https://www.google.com/search?tbm=isch&q=${encodeURIComponent(`${v.name} gym machine`)}`;
             const isSwapped = Boolean(swaps[i]);
-            const alternatives = findAlternatives(activeDay.id, i, setKey);
+            const alternatives = findAlternatives(EX, activeDay.id, i, setKey);
 
             const sessions = workoutLogs.getExerciseLogs(v.slug);
             const last = lastSessionBefore(sessions, todayISO());

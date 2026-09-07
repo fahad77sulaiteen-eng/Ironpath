@@ -8,6 +8,7 @@ const DEFAULTS = {
   repIncrement: 2,
   progressionMode: 'weight', // 'weight' | 'reps'
   reminderEnabled: false,
+  programMode: 'auto', // 'auto' | 'fourDay' | 'upperLower' — auto alternates by week
 };
 
 function loadSettings() {

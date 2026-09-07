@@ -11,7 +11,7 @@ export const DAYS = [
   { id: 'push', label: 'Push', focus: 'Chest, shoulders, triceps', pts: [[30, 27], [21, 23], [39, 23], [16, 38], [44, 38]], view: 'front', ar: { label: 'دفع', focus: 'الصدر، الأكتاف، الترايسبس' } },
   { id: 'pull', label: 'Pull', focus: 'Back, biceps', pts: [[30, 21], [23, 34], [37, 34], [16, 38], [44, 38]], view: 'back', ar: { label: 'سحب', focus: 'الظهر، البايسبس' } },
   { id: 'legs', label: 'Legs', focus: 'Quads, hamstrings, glutes, calves', pts: [[25, 70], [35, 70], [30, 60], [24, 101], [36, 101]], view: 'back', ar: { label: 'أرجل', focus: 'الفخذ الأمامي، الخلفي، المؤخرة، السمانة' } },
-  { id: 'core', label: 'Upper + Core', focus: 'Full upper body and midsection', pts: [[30, 27], [30, 46], [22, 24], [38, 24]], view: 'front', ar: { label: 'علوي + بطن', focus: 'كامل الجزء العلوي والمنطقة الوسطى' } },
+  { id: 'core', label: 'Upper + Core', short: 'Upper', focus: 'Full upper body and midsection', pts: [[30, 27], [30, 46], [22, 24], [38, 24]], view: 'front', ar: { label: 'علوي + بطن', short: 'علوي', focus: 'كامل الجزء العلوي والمنطقة الوسطى' } },
 ];
 
 export const EX = {
@@ -65,6 +65,87 @@ export const EX = {
     { a: 'Torso Rotation Machine', am: 'Seated rotation', aImg: null, aSlug: 'torso-rotation-machine', b: 'Captain’s Chair Knee Raise', bm: 'Vertical knee raise', bImg: 'img/captains_chair_knee_raise.jpg', bSlug: 'captains-chair-knee-raise', sets: 3, reps: '15', cue: 'Turn from the ribcage and keep your hips facing forward.', muscle: 'Obliques', view: 'front', pts: [[22, 44], [38, 44]], kind: 'rotation',
       ar: { a: 'جهاز دوران الجذع', am: 'جلوس، دوران', b: 'رفع ركبة كرسي الكابتن', bm: 'رفع ركبة عمودي', cue: 'لُف من القفص الصدري وخلّ وركك يواجه الأمام.', muscle: 'عضلات الخاصرة (المائلة)' } },
   ],
+};
+
+// --- Second program: Upper / Lower (machines + cable only) -----------------
+// Unlike the 4-day program above, each exercise here has a single fixed
+// machine (no a/b swap pair) — entries are already in the same flat shape
+// `pickVariant()` produces for the 4-day program, so the workout UI can
+// render both programs through one code path. `img: null` falls back to the
+// animated MachineDemo, same convention as the 4-day program.
+
+export const UL_DAYS = [
+  { id: 'upperA', label: 'Upper A', short: 'Upper A', focus: 'Chest, back, shoulders, triceps — growth (8–12 reps)', pts: [[30, 27], [21, 23], [39, 23], [16, 38], [44, 38]], view: 'front',
+    ar: { label: 'الجزء العلوي أ', short: 'علوي أ', focus: 'الصدر، الظهر، الأكتاف، الترايسبس — بناء (٨-١٢ تكرار)' } },
+  { id: 'lowerA', label: 'Lower A', short: 'Lower A', focus: 'Quads, hamstrings, glutes, calves — tone (15–20 reps, light–moderate)', pts: [[25, 70], [35, 70], [30, 60], [24, 101], [36, 101]], view: 'back',
+    note: 'Note: spot-reducing one area with exercise alone isn’t possible — fat loss happens across the whole body through cardio and diet, not by training a single spot.',
+    ar: { label: 'الجزء السفلي أ', short: 'سفلي أ', focus: 'الفخذ، المؤخرة، السمانة — تنشيف وشد (١٥-٢٠ تكرار، وزن خفيف لمتوسط)',
+      note: 'ملاحظة: تنحيف مكان معيّن بالتمرين وحده غير ممكن — حرق الدهون يصير بالجسم كامل عن طريق الكارديو والنظام الغذائي، مو بتمرين منطقة واحدة.' } },
+  { id: 'upperB', label: 'Upper B', short: 'Upper B', focus: 'Chest, back, shoulders, biceps, triceps — growth (8–12 reps)', pts: [[30, 27], [23, 34], [37, 34], [16, 38], [44, 38]], view: 'front',
+    ar: { label: 'الجزء العلوي ب', short: 'علوي ب', focus: 'الصدر، الظهر، الأكتاف، البايسبس، الترايسبس — بناء (٨-١٢ تكرار)' } },
+  { id: 'cardio', label: 'Cardio', short: 'Cardio', focus: 'Steady cardio for a leaner look + optional core finisher', pts: [[30, 46], [25, 70], [35, 70]], view: 'front', type: 'cardio',
+    note: 'Getting lean depends on diet more than training — a modest calorie deficit plus enough protein.',
+    ar: { label: 'كارديو', short: 'كارديو', focus: 'كارديو ثابت للتنشيف + تمارين بطن اختيارية',
+      note: 'التنشيف يعتمد على الأكل أكثر من التمرين — عجز سعرات بسيط + بروتين كافٍ.' } },
+];
+
+export const UL_EX = {
+  upperA: [
+    { name: 'Chest Press Machine', machine: 'Seated chest press', img: 'img/chest_press_machine.jpg', slug: 'chest-press-machine', sets: 4, reps: '10', cue: 'Wrists stacked over your elbows. Stop just short of locking out.', muscle: 'Chest', view: 'front', pts: [[30, 27]], kind: 'horizPress',
+      ar: { name: 'جهاز ضغط الصدر', machine: 'جلوس، ضغط صدر', cue: 'خلّ معصمك فوق كوعك تماماً. توقف قبل ما تفرد الذراع بالكامل.', muscle: 'الصدر' } },
+    { name: 'Lat Pulldown', machine: 'Cable pulldown station', img: 'img/lat_pulldown.jpg', slug: 'lat-pulldown', sets: 4, reps: '10', cue: 'Pull the bar to your collarbone and keep your chest tall.', muscle: 'Lats', view: 'back', pts: [[23, 34], [37, 34]], kind: 'vertPull',
+      ar: { name: 'سحب أمامي علوي', machine: 'محطة السحب بالكيبل', cue: 'اسحب البار لعظمة الترقوة وخلّ صدرك مرفوع.', muscle: 'عضلة اللاتس (الظهر الجانبي)' } },
+    { name: 'Shoulder Press Machine', machine: 'Seated shoulder press', img: 'img/shoulder_press_machine.jpg', slug: 'shoulder-press-machine', sets: 3, reps: '10', cue: 'Ribs down. Press overhead without arching your lower back.', muscle: 'Front delts', view: 'front', pts: [[22, 24], [38, 24]], kind: 'vertPress',
+      ar: { name: 'جهاز ضغط الكتف', machine: 'جلوس، ضغط كتف', cue: 'ثبّت ضلوعك للأسفل. ادفع للأعلى بدون تقويس أسفل الظهر.', muscle: 'الكتف الأمامي' } },
+    { name: 'Seated Cable Row', machine: 'Low cable row station', img: 'img/seated_cable_row.jpg', slug: 'seated-cable-row', sets: 3, reps: '12', cue: 'Drive your elbows past your ribs; don’t rock the torso.', muscle: 'Mid back', view: 'back', pts: [[30, 32]], kind: 'horizPull',
+      ar: { name: 'تجديف كيبل جلوس', machine: 'محطة تجديف كيبل منخفض', cue: 'ادفع كوعك خلف ضلوعك؛ لا تتأرجح بجذعك.', muscle: 'منتصف الظهر' } },
+    { name: 'Lateral Raise Machine', machine: 'Seated lateral raise', img: 'img/lateral_raise_machine.jpg', slug: 'lateral-raise-machine', sets: 3, reps: '15', cue: 'Lead with the elbows and stop at shoulder height.', muscle: 'Side delts', view: 'front', pts: [[20, 26], [40, 26]], kind: 'raise',
+      ar: { name: 'جهاز رفرفة جانبية', machine: 'جلوس، رفرفة جانبية', cue: 'ابدأ الحركة بالكوع وتوقف عند مستوى الكتف.', muscle: 'الكتف الجانبي' } },
+    { name: 'Cable Triceps Pushdown', machine: 'High cable, rope or bar', img: 'img/cable_triceps_pushdown.jpg', slug: 'cable-triceps-pushdown', sets: 3, reps: '12', cue: 'Pin your elbows to your sides — only the forearms move.', muscle: 'Triceps', view: 'back', pts: [[16, 38], [44, 38]], kind: 'pushdown',
+      ar: { name: 'دفع ترايسبس بالكيبل', machine: 'كيبل علوي، حبل أو بار', cue: 'ثبّت كوعك بجنبك — الساعد فقط هو اللي يتحرك.', muscle: 'الترايسبس' } },
+  ],
+  lowerA: [
+    { name: 'Leg Press', machine: '45° leg press sled — light–moderate load', img: 'img/leg_press.jpg', slug: 'leg-press', sets: 3, reps: '18', cue: 'Light–moderate weight, controlled tempo — this is for tone, not max load.', muscle: 'Quads, glutes', view: 'front', pts: [[25, 70], [35, 70]], kind: 'legpress',
+      ar: { name: 'ضغط أرجل', machine: 'زحافة ضغط أرجل بزاوية ٤٥ — وزن خفيف لمتوسط', cue: 'وزن خفيف لمتوسط، إيقاع متحكم — الهدف شد وتنشيف مو رفع أثقال.', muscle: 'الفخذ الأمامي والمؤخرة' } },
+    { name: 'Seated Leg Curl', machine: 'Seated leg curl', img: 'img/seated_leg_curl.jpg', slug: 'seated-leg-curl', sets: 3, reps: '18', cue: 'Keep your hips pressed down and squeeze at the top.', muscle: 'Hamstrings', view: 'back', pts: [[25, 72], [35, 72]], kind: 'legcurl',
+      ar: { name: 'ثني رجل بالجلوس', machine: 'ثني رجل جلوس', cue: 'خلّ وركك مضغوط للأسفل واعصر بأعلى الحركة.', muscle: 'الفخذ الخلفي' } },
+    { name: 'Hip Abduction Machine', machine: 'Seated abduction', img: null, slug: 'hip-abduction-machine', sets: 3, reps: '20', cue: 'Light weight, slow and controlled — push out against the pads.', muscle: 'Glutes', view: 'back', pts: [[30, 60]], kind: 'hipthrust',
+      ar: { name: 'جهاز تبعيد الورك', machine: 'تبعيد جلوس', cue: 'وزن خفيف، حركة بطيئة ومتحكمة — ادفع للخارج ضد الوسادتين.', muscle: 'المؤخرة' } },
+    { name: 'Cable Glute Kickback', machine: 'Low cable, ankle strap', img: null, slug: 'cable-glute-kickback', sets: 3, reps: '20', cue: 'Squeeze the glute at the top; don’t swing from the lower back.', muscle: 'Glutes', view: 'back', pts: [[30, 60]], kind: 'hipthrust',
+      ar: { name: 'ركل خلفي بالكيبل', machine: 'كيبل منخفض، سوار الكاحل', cue: 'اعصر المؤخرة بأعلى الحركة؛ لا تتأرجح بأسفل الظهر.', muscle: 'المؤخرة' } },
+    { name: 'Standing Calf Raise Machine', machine: 'Standing calf raise', img: 'img/standing_calf_raise_machine.jpg', slug: 'standing-calf-raise-machine', sets: 3, reps: '20', cue: 'Full stretch at the bottom, one-second pause at the top.', muscle: 'Calves', view: 'back', pts: [[24, 101], [36, 101]], kind: 'calf',
+      ar: { name: 'جهاز سمانة وقوف', machine: 'وقوف، رفع سمانة', cue: 'مطّ كامل بالأسفل، ووقفة ثانية بالأعلى.', muscle: 'السمانة' } },
+  ],
+  upperB: [
+    { name: 'Incline Press Machine', machine: 'Incline chest press', img: 'img/incline_press_machine.jpg', slug: 'incline-press-machine', sets: 4, reps: '10', cue: 'Press up and slightly in; keep your shoulders pulled down.', muscle: 'Upper chest', view: 'front', pts: [[30, 24]], kind: 'horizPress',
+      ar: { name: 'جهاز ضغط مائل', machine: 'ضغط صدر مائل', cue: 'ادفع لأعلى ولداخل قليلاً؛ خلّ أكتافك للأسفل.', muscle: 'أعلى الصدر' } },
+    { name: 'Assisted Pull-up Machine', machine: 'Assisted pull-up / dip', img: 'img/assisted_pullup_machine.jpg', slug: 'assisted-pullup-machine', sets: 3, reps: '10', cue: 'Pull your chest to the bar, drive the elbows down and back.', muscle: 'Lats', view: 'back', pts: [[23, 34], [37, 34]], kind: 'vertPull',
+      ar: { name: 'جهاز العقلة المساعد', machine: 'عقلة / تنعيس مساعد', cue: 'اسحب صدرك للبار، وادفع كوعك للأسفل والخلف.', muscle: 'عضلة اللاتس (الظهر الجانبي)' } },
+    { name: 'Pec Deck', machine: 'Pec deck / butterfly', img: 'img/pec_deck.jpg', slug: 'pec-deck', sets: 3, reps: '12', cue: 'Hug, don’t press — elbows stay softly bent the whole way.', muscle: 'Inner chest', view: 'front', pts: [[30, 29]], kind: 'fly',
+      ar: { name: 'جهاز الفراشة', machine: 'جهاز الفراشة', cue: 'احتضن الجهاز، لا تضغط — خلّ الكوع مثني بلطف طول الحركة.', muscle: 'وسط الصدر' } },
+    { name: 'Cable Face Pull', machine: 'High cable, rope', img: 'img/cable_face_pull.jpg', slug: 'cable-face-pull', sets: 3, reps: '15', cue: 'Pull to eye level with your thumbs pointing back.', muscle: 'Rear delts', view: 'back', pts: [[21, 25], [39, 25]], kind: 'horizPull',
+      ar: { name: 'سحب للوجه بالكيبل', machine: 'كيبل علوي، حبل', cue: 'اسحب لمستوى العين مع توجيه الإبهام للخلف.', muscle: 'الكتف الخلفي' } },
+    { name: 'Biceps Curl Machine', machine: 'Seated preacher curl', img: 'img/biceps_curl_machine.jpg', slug: 'biceps-curl-machine', sets: 3, reps: '12', cue: 'Elbows stay put. Lower slower than you lift.', muscle: 'Biceps', view: 'front', pts: [[16, 38], [44, 38]], kind: 'curl',
+      ar: { name: 'جهاز باي البايسبس', machine: 'جلوس، باي بريتشر', cue: 'خلّ كوعك ثابت. انزل أبطأ من ما ترفع.', muscle: 'البايسبس' } },
+    { name: 'Cable Rope Overhead Triceps Extension', machine: 'High cable, rope', img: 'img/cable_overhead_extension.jpg', slug: 'cable-overhead-extension', sets: 3, reps: '12', cue: 'Keep your elbows pointed forward and close to your head.', muscle: 'Triceps', view: 'back', pts: [[16, 38], [44, 38]], kind: 'pushdown',
+      ar: { name: 'مد ترايسبس فوق الرأس بالحبل', machine: 'كيبل علوي، حبل', cue: 'خلّ كوعك للأمام وقريب من راسك.', muscle: 'الترايسبس' } },
+  ],
+  cardio: [
+    { name: 'Ab Crunch Machine', machine: 'Seated ab crunch', img: 'img/ab_crunch_machine.jpg', slug: 'ab-crunch-machine', sets: 3, reps: '15', cue: 'Curl your ribs toward your hips; don’t pull with your arms.', muscle: 'Abs', view: 'front', pts: [[30, 46]], kind: 'crunch',
+      ar: { name: 'جهاز طي البطن', machine: 'جلوس، طي بطن', cue: 'اطوِ ضلوعك تجاه وركك؛ لا تسحب بذراعك.', muscle: 'البطن' } },
+    { name: 'Cable Crunch', machine: 'High cable, kneeling', img: 'img/cable_crunch.jpg', slug: 'cable-crunch', sets: 3, reps: '15', cue: 'Round your back and crunch down toward your knees.', muscle: 'Abs', view: 'front', pts: [[30, 46]], kind: 'crunch',
+      ar: { name: 'طي بطن بالكيبل', machine: 'كيبل علوي، جثو', cue: 'قوّس ظهرك واطوِ تجاه ركبتك.', muscle: 'البطن' } },
+  ],
+};
+
+export const CARDIO_INFO = {
+  minutesLow: 30, minutesHigh: 40, mode: 'Incline treadmill walk or stationary bike, moderate pace',
+  ar: { mode: 'مشي على السير بميلان أو دراجة ثابتة، إيقاع متوسط' },
+};
+
+export const PROGRAMS = {
+  fourDay: { id: 'fourDay', label: '4-Day Program', ar: { label: 'برنامج ٤ أيام' }, days: DAYS, ex: EX },
+  upperLower: { id: 'upperLower', label: 'Upper / Lower', ar: { label: 'أعلى / أسفل' }, days: UL_DAYS, ex: UL_EX },
 };
 
 // Design-canvas tweakable props in the prototype — fixed defaults for production.

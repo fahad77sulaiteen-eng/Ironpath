@@ -1,4 +1,4 @@
-import { DAYS } from '../data/exercises';
+import { programForWeek, setKeyForWeek } from '../utils/programs';
 import { useI18n } from '../i18n/I18nContext';
 
 function weekCardStyle(active, locked) {
@@ -30,7 +30,7 @@ function sessionButtonStyle(done, locked) {
   };
 }
 
-export default function TrackerSection({ sessions, cw, monthDone, toggle, resetMonth }) {
+export default function TrackerSection({ sessions, cw, monthDone, toggle, resetMonth, programMode, updateSettings }) {
   const { t, lang } = useI18n();
   return (
     <section id="tracker" style={{ padding: '38px 20px 8px', scrollMarginTop: 64 }}>
@@ -38,29 +38,52 @@ export default function TrackerSection({ sessions, cw, monthDone, toggle, resetM
       <h2 style={{ fontFamily: 'var(--font-heading)', fontWeight: 500, fontSize: 26, letterSpacing: '-0.02em', margin: '8px 0 4px' }}>
         {t('trackerTitle')}
       </h2>
-      <p style={{ margin: '0 0 20px', fontSize: 13, lineHeight: 1.55, color: 'color-mix(in srgb,var(--color-text) 62%,transparent)' }}>
+      <p style={{ margin: '0 0 16px', fontSize: 13, lineHeight: 1.55, color: 'color-mix(in srgb,var(--color-text) 62%,transparent)' }}>
         {t('trackerBody')}
       </p>
+
+      <div style={{ marginBottom: 20 }}>
+        <div style={{ fontSize: 11, marginBottom: 8, color: 'color-mix(in srgb,var(--color-text) 60%,transparent)' }}>{t('programModeLabel')}</div>
+        <div className="seg" role="tablist" style={{ width: '100%' }}>
+          {['auto', 'fourDay', 'upperLower'].map((mode) => (
+            <label key={mode} className="seg-opt" style={{ flex: 1, justifyContent: 'center', whiteSpace: 'nowrap' }}>
+              <input
+                type="radio"
+                name="ip-programMode"
+                checked={programMode === mode}
+                onChange={() => updateSettings({ programMode: mode })}
+                style={{ position: 'absolute', width: 1, height: 1, opacity: 0 }}
+              />
+              {t(mode === 'auto' ? 'programModeAuto' : mode === 'fourDay' ? 'programFourDay' : 'programUpperLower')}
+            </label>
+          ))}
+        </div>
+      </div>
+
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
         {[0, 1, 2, 3].map((w) => {
+          const prog = programForWeek(w, programMode);
+          const setKey = setKeyForWeek(w, programMode);
           const wDone = sessions.slice(w * 4, w * 4 + 4).filter(Boolean).length;
           const active = w === cw && !monthDone;
           const locked = w > cw;
           const status = wDone === 4 ? t('complete') : locked ? t('locked') : `${wDone} ${t('ofFour')}`;
           const statusColor = wDone === 4 ? 'var(--color-accent-300)' : 'color-mix(in srgb,var(--color-text) 45%,transparent)';
+          const progLabel = lang === 'ar' ? prog.ar.label : prog.label;
           return (
             <div key={w} style={weekCardStyle(active, locked)}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
                 <span style={{ fontFamily: 'var(--font-heading)', fontSize: 14 }}>{t('week')} {w + 1}</span>
-                <span className="tag tag-neutral">{w < 2 ? t('setA') : t('setB')}</span>
+                <span className="tag tag-neutral">{prog.id === 'fourDay' ? (setKey === 'a' ? t('setA') : t('setB')) : progLabel}</span>
                 <span style={{ marginInlineStart: 'auto', fontSize: 11, color: statusColor }}>{status}</span>
               </div>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 8 }}>
                 {[0, 1, 2, 3].map((d) => {
                   const i = w * 4 + d;
                   const done = sessions[i];
-                  const dayLabel = lang === 'ar' ? DAYS[d].ar.label : DAYS[d].label;
-                  const short = DAYS[d].id === 'core' ? t('upperCoreShort') : dayLabel;
+                  const dayObj = prog.days[d];
+                  const dayLabel = lang === 'ar' ? dayObj.ar.label : dayObj.label;
+                  const short = lang === 'ar' ? (dayObj.ar.short || dayObj.ar.label) : (dayObj.short || dayObj.label);
                   const aria = `${t('week')} ${w + 1} ${dayLabel}${done ? ', ' + t('complete') : ''}`;
                   return (
                     <button

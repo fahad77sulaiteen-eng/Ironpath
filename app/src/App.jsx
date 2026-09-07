@@ -53,7 +53,7 @@ export default function App() {
           <>
             <HeroSection />
             <SplitSection />
-            <TrackerSection sessions={sessions} cw={cw} monthDone={monthDone} toggle={toggle} resetMonth={resetMonth} />
+            <TrackerSection sessions={sessions} cw={cw} monthDone={monthDone} toggle={toggle} resetMonth={resetMonth} programMode={settings.programMode} updateSettings={updateSettings} />
             <WorkoutSection day={day} selectDay={selectDay} cw={cw} workoutLogs={workoutLogs} settings={settings} updateSettings={updateSettings} />
             <Footer />
           </>
