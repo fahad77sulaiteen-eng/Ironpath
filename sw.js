@@ -2,7 +2,7 @@
 // shell and the exercise photos, then serve same-origin GETs cache-first
 // with a background refresh so updates still arrive without breaking
 // offline use.
-const CACHE_NAME = 'ironpath-v1';
+const CACHE_NAME = 'ironpath-v2';
 
 const IMG_FILES = [
   'ab_crunch_machine.jpg', 'assisted_pullup_machine.jpg', 'biceps_curl_machine.jpg',
